@@ -1,0 +1,133 @@
+/* Cronómetro de entrenamiento — pantalla tipo app */
+body.crono { min-height: 100vh; min-height: 100dvh; background: var(--negro); transition: background-color .5s; }
+.cr-app { max-width: 1100px; margin: 0 auto; padding: max(14px, env(safe-area-inset-top)) 16px calc(24px + env(safe-area-inset-bottom)); display: grid; grid-template-columns: 1.1fr .9fr; gap: 24px; align-items: start; }
+.cr-top { grid-column: 1 / -1; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.cr-top .marca { display: flex; align-items: center; gap: 10px; text-decoration: none; font-family: var(--display); font-size: 20px; letter-spacing: .05em; }
+.cr-top .marca img { height: 34px; width: auto; }
+.cr-top .acc { display: flex; gap: 8px; }
+.cr-ib { width: 46px; height: 46px; border-radius: 14px; border: 1px solid var(--linea); background: var(--gris-1); color: var(--txt); display: grid; place-items: center; cursor: pointer; text-decoration: none; }
+.cr-ib .ico { width: 22px; height: 22px; }
+.cr-ib.off { color: var(--txt-3); }
+
+/* Pantalla principal */
+.cr-pantalla { position: relative; border-radius: 32px; padding: 26px 22px 24px; background: var(--gris-1); border: 1px solid var(--linea); overflow: hidden; text-align: center; transition: background .5s, border-color .5s, box-shadow .5s; }
+.cr-pantalla::before { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at 50% 38%, var(--fase, rgba(255,255,255,.06)), transparent 62%); opacity: .55; transition: background .5s; pointer-events: none; }
+.cr-pantalla[data-fase=trabajo] { --fase: var(--rojo); border-color: color-mix(in srgb, var(--rojo) 60%, transparent); }
+.cr-pantalla[data-fase=descanso], .cr-pantalla[data-fase=descanso_serie] { --fase: #22c55e; border-color: rgba(34,197,94,.55); }
+.cr-pantalla[data-fase=prep] { --fase: #f59e0b; border-color: rgba(245,158,11,.55); }
+.cr-pantalla[data-fase=serie] { --fase: var(--rojo); border-color: color-mix(in srgb, var(--rojo) 60%, transparent); }
+.cr-pantalla[data-fase=fin] { --fase: var(--volt); border-color: color-mix(in srgb, var(--volt) 60%, transparent); }
+.cr-pantalla.pausado { border-color: #f59e0b; animation: pausaLatido 1.6s ease-in-out infinite; }
+@keyframes pausaLatido { 50% { box-shadow: 0 0 0 8px rgba(245,158,11,.18), 0 0 60px rgba(245,158,11,.25); } }
+.cr-pantalla.destello { animation: destello .6s; }
+@keyframes destello { 0% { filter: brightness(2.2); } 100% { filter: none; } }
+.cr-fase { position: relative; font-family: var(--display); font-size: clamp(28px, 6vw, 44px); letter-spacing: .06em; text-transform: uppercase; line-height: 1; margin-bottom: 4px; }
+.cr-pantalla[data-fase=trabajo] .cr-fase, .cr-pantalla[data-fase=serie] .cr-fase { color: var(--rojo); }
+.cr-pantalla[data-fase=descanso] .cr-fase, .cr-pantalla[data-fase=descanso_serie] .cr-fase { color: #4ade80; }
+.cr-pantalla[data-fase=prep] .cr-fase { color: #fbbf24; }
+.cr-pantalla[data-fase=fin] .cr-fase { color: var(--volt); }
+.cr-ejercicio { position: relative; min-height: 26px; font-weight: 800; font-size: 18px; color: var(--txt); }
+.cr-carga { position: relative; font-size: 14px; color: var(--txt-2); min-height: 20px; }
+.cr-anillo { position: relative; width: min(78vw, 420px); aspect-ratio: 1; margin: 8px auto 4px; }
+.cr-anillo svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+.cr-anillo circle { fill: none; stroke-width: 14; }
+.cr-anillo .f { stroke: rgba(255,255,255,.07); }
+.cr-anillo .b { stroke: var(--fase, var(--rojo)); stroke-linecap: round; transition: stroke .4s; filter: drop-shadow(0 0 10px var(--fase, var(--rojo))); }
+.cr-tiempo { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+.cr-tiempo b { font-family: var(--display); font-weight: 400; font-size: clamp(72px, 20vw, 150px); line-height: 1; font-variant-numeric: tabular-nums; letter-spacing: .01em; }
+.cr-tiempo span { color: var(--txt-2); font-weight: 700; font-size: 14px; text-transform: uppercase; letter-spacing: .14em; }
+.cr-contador { position: relative; display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; margin: 6px 0 16px; }
+.cr-contador .chip b { color: var(--txt); }
+.cr-pausa-aviso { position: relative; display: none; margin: 0 auto 14px; max-width: 420px; padding: 12px 16px; border-radius: 14px; background: rgba(245,158,11,.16); border: 1px solid rgba(245,158,11,.5); color: #fde68a; font-weight: 700; }
+.cr-pantalla.pausado .cr-pausa-aviso { display: block; }
+.cr-controles { position: relative; display: flex; justify-content: center; align-items: center; gap: 18px; }
+.cr-btn { width: 64px; height: 64px; border-radius: 50%; border: 1px solid var(--linea); background: var(--gris-2); color: var(--txt); display: grid; place-items: center; cursor: pointer; transition: transform .15s; }
+.cr-btn:active { transform: scale(.94); }
+.cr-btn .ico { width: 26px; height: 26px; }
+.cr-btn.grande { width: 96px; height: 96px; background: var(--rojo); color: var(--sobre-rojo); border: 0; box-shadow: 0 12px 40px color-mix(in srgb, var(--rojo) 50%, transparent); }
+.cr-btn.grande .ico { width: 40px; height: 40px; }
+.cr-hecho { position: relative; margin-top: 16px; }
+.cr-siguiente { position: relative; margin-top: 14px; font-size: 14px; color: var(--txt-2); min-height: 20px; }
+.cr-vueltas { position: relative; max-height: 160px; overflow: auto; margin: 12px auto 0; max-width: 320px; text-align: left; font-variant-numeric: tabular-nums; }
+.cr-vueltas div { display: flex; justify-content: space-between; padding: 6px 4px; border-bottom: 1px solid var(--linea); font-size: 14px; }
+.cr-registro { position: relative; display: none; margin: 14px auto 0; max-width: 340px; gap: 8px; align-items: center; }
+.cr-registro.on { display: flex; }
+.cr-registro input { padding: 10px 12px; }
+
+/* Panel de configuración */
+.cr-panel { background: var(--gris-1); border: 1px solid var(--linea); border-radius: 26px; padding: 22px; }
+.cr-app > * { min-width: 0; }
+.cr-modos { display: flex; gap: 6px; padding: 6px; background: var(--negro); border-radius: 16px; margin-bottom: 18px; }
+.cr-modos button { flex: 1; min-width: 0; border: 0; background: none; color: var(--txt-2); padding: 10px 4px; border-radius: 12px; font-weight: 700; font-size: 12px; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 4px; }
+.cr-modos button .ico { width: 20px; height: 20px; }
+.cr-modos button.on { background: var(--rojo); color: var(--sobre-rojo); }
+.cr-modos button[hidden] { display: none; }
+.cr-sugerencias { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 6px; margin-bottom: 16px; scrollbar-width: thin; }
+.cr-sugerencias button { flex: none; border: 1px solid var(--gris-3); background: var(--negro); color: var(--txt); padding: 10px 14px; border-radius: 14px; font-weight: 700; font-size: 13px; cursor: pointer; text-align: left; line-height: 1.25; }
+.cr-sugerencias button small { display: block; color: var(--txt-2); font-weight: 600; font-size: 11px; }
+.cr-sugerencias button.on { border-color: var(--rojo); background: color-mix(in srgb, var(--rojo) 14%, var(--negro)); }
+.cr-fila { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--linea); }
+.cr-fila:last-child { border-bottom: 0; }
+.cr-fila label { font-weight: 700; font-size: 15px; }
+.cr-fila label small { display: block; font-weight: 500; color: var(--txt-3); font-size: 12px; }
+.cr-num { display: flex; align-items: center; gap: 6px; }
+.cr-num button { width: 40px; height: 40px; border-radius: 12px; border: 1px solid var(--gris-3); background: var(--negro); color: var(--txt); font-size: 20px; font-weight: 800; cursor: pointer; }
+.cr-num input { width: 78px; text-align: center; padding: 9px 6px; font-weight: 800; font-variant-numeric: tabular-nums; }
+.cr-rapidos { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+.cr-rapidos button { flex: 1; min-width: 60px; border: 1px solid var(--gris-3); background: var(--negro); color: var(--txt); padding: 12px 6px; border-radius: 12px; font-weight: 800; cursor: pointer; }
+.cr-rapidos button:hover { border-color: #22c55e; }
+.cr-resumen-cfg { margin-top: 14px; padding: 12px 14px; border-radius: 14px; background: var(--negro); color: var(--txt-2); font-size: 14px; }
+.cr-ajustes summary { cursor: pointer; font-weight: 800; padding: 14px 0 4px; }
+.switch { position: relative; width: 52px; height: 30px; flex: none; }
+.switch input { opacity: 0; width: 0; height: 0; position: absolute; }
+.switch i { position: absolute; inset: 0; border-radius: 30px; background: var(--gris-3); transition: background .2s; cursor: pointer; }
+.switch i::after { content: ''; position: absolute; left: 3px; top: 3px; width: 24px; height: 24px; border-radius: 50%; background: #fff; transition: transform .2s; }
+.switch input:checked + i { background: var(--rojo); }
+.switch input:checked + i::after { transform: translateX(22px); }
+.switch input:focus-visible + i { outline: 3px solid var(--volt); }
+.cr-rutina-lista { display: grid; gap: 8px; max-height: 320px; overflow: auto; }
+.cr-rutina-lista div { display: flex; justify-content: space-between; gap: 10px; padding: 10px 12px; border-radius: 12px; background: var(--negro); font-size: 14px; }
+.cr-rutina-lista div.hecho { opacity: .45; text-decoration: line-through; }
+.cr-rutina-lista div.actual { outline: 2px solid var(--rojo); }
+.cr-instalar { display: none; margin-top: 16px; }
+.cr-instalar.on { display: flex; }
+
+/* Final */
+.cr-fin { position: fixed; inset: 0; z-index: 90; display: none; align-items: center; justify-content: center; padding: 16px; background: rgba(0,0,0,.8); backdrop-filter: blur(8px); }
+.cr-fin.on { display: flex; }
+.cr-fin .caja { max-width: 440px; width: 100%; text-align: center; animation: entra .4s; }
+.cr-fin h2 { font-family: var(--display); font-weight: 400; font-size: 54px; text-transform: uppercase; color: var(--volt); line-height: 1; }
+.cr-caras { display: flex; justify-content: center; gap: 8px; margin: 14px 0; }
+.cr-caras button { font-size: 30px; width: 54px; height: 54px; border-radius: 14px; border: 1px solid var(--gris-3); background: var(--negro); cursor: pointer; }
+.cr-caras button.on { border-color: var(--volt); background: color-mix(in srgb, var(--volt) 18%, var(--negro)); }
+
+/* Modo pantalla completa / celular */
+body.crono.enfoque .cr-panel, body.crono.enfoque .cr-top .marca span { display: none; }
+body.crono.enfoque .cr-app { grid-template-columns: 1fr; max-width: 640px; }
+@media (max-width: 880px) {
+  .cr-app { grid-template-columns: 1fr; }
+  .cr-top .marca span { display: none; }
+}
+@media (max-width: 420px) {
+  .cr-modos button { font-size: 10.5px; }
+  .cr-btn { width: 56px; height: 56px; }
+  .cr-btn.grande { width: 84px; height: 84px; }
+}
+
+/* Volver */
+.cr-top { justify-content: flex-start; }
+.cr-top .acc { margin-left: auto; }
+.cr-top > .cr-ib[data-volver] { font-size: 22px; font-weight: 800; }
+
+/* Versión dentro de la ventanita flotante */
+body.crono.mini .cr-top { display: none; }
+body.crono.mini .cr-app { grid-template-columns: 1fr; padding: 10px; gap: 12px; }
+body.crono.mini .cr-pantalla { padding: 14px 12px 16px; border-radius: 20px; }
+body.crono.mini .cr-anillo { width: min(62vw, 230px); margin: 4px auto 0; }
+body.crono.mini .cr-tiempo b { font-size: clamp(56px, 16vw, 80px); }
+body.crono.mini .cr-fase { font-size: 26px; }
+body.crono.mini .cr-btn { width: 52px; height: 52px; }
+body.crono.mini .cr-btn.grande { width: 76px; height: 76px; }
+body.crono.mini .cr-panel { padding: 14px; border-radius: 20px; }
+body.crono.mini .cr-modos button { font-size: 10.5px; padding: 8px 2px; }
+body.crono.mini .aviso-salud, body.crono.mini .cr-instalar { display: none; }

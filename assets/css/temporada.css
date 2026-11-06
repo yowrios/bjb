@@ -1,0 +1,143 @@
+/* =========================================================
+   Temporadas: tarjeta de saludo y decoración de la web
+   Todo lo decorativo es «pointer-events: none»: nunca tapa botones.
+   ========================================================= */
+
+/* ---------- Tarjeta de saludo ---------- */
+.saludo {
+  position: fixed; left: 50%; top: 86px; z-index: 58; width: min(520px, calc(100vw - 28px));
+  padding: 30px 30px 20px; border-radius: 26px; text-align: center;
+  background: radial-gradient(120% 80% at 50% 0%, color-mix(in srgb, var(--rojo) 26%, transparent), transparent 70%), color-mix(in srgb, var(--negro) 90%, transparent);
+  backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+  border: 1.5px solid color-mix(in srgb, var(--volt) 55%, transparent);
+  box-shadow: 0 30px 80px rgba(0,0,0,.65), 0 0 0 6px color-mix(in srgb, var(--volt) 8%, transparent), 0 0 60px color-mix(in srgb, var(--rojo) 25%, transparent);
+  opacity: 0; transform: translate(-50%, -24px) scale(.96); transition: opacity .7s ease, transform .7s cubic-bezier(.2,.9,.3,1.2);
+}
+.saludo.on { opacity: 1; transform: translate(-50%, 0) scale(1); }
+.saludo[hidden] { display: none; }
+.saludo-titulo { margin: 4px 0 8px; line-height: 1.05; font-size: clamp(40px, 8vw, 62px);
+  background: linear-gradient(180deg, #fff 0%, var(--volt) 55%, color-mix(in srgb, var(--volt) 60%, #000) 100%); -webkit-background-clip: text; background-clip: text; color: transparent;
+  filter: drop-shadow(0 3px 0 rgba(0,0,0,.55)) drop-shadow(0 0 18px color-mix(in srgb, var(--volt) 35%, transparent)); }
+.saludo-texto { margin: 0 auto 10px; max-width: 400px; color: #ececf0; font-size: 15.5px; line-height: 1.5; }
+.saludo-firma { display: block; color: var(--txt-3); font-size: 13px; font-style: italic; margin-top: 6px; }
+.saludo-btn { display: inline-block; margin-top: 6px; padding: 9px 20px; border-radius: 999px; background: var(--rojo); color: var(--sobre-rojo); font-weight: 800; font-size: 13px; text-decoration: none; text-transform: uppercase; letter-spacing: .06em; }
+.saludo-cerrar { position: absolute; right: 12px; top: 12px; width: 32px; height: 32px; border-radius: 50%; border: 1px solid rgba(255,255,255,.15); background: rgba(0,0,0,.35); color: #fff; font-size: 18px; cursor: pointer; z-index: 2; }
+.saludo-orn { position: absolute; left: 0; right: 0; top: -2px; height: 0; pointer-events: none; }
+.saludo-orn svg { position: absolute; }
+.saludo-pill { position: fixed; left: 14px; top: 80px; z-index: 58; display: flex; align-items: center; gap: 8px; padding: 8px 16px; border-radius: 999px; cursor: pointer;
+  border: 1px solid color-mix(in srgb, var(--volt) 55%, transparent); background: color-mix(in srgb, var(--negro) 88%, transparent); backdrop-filter: blur(10px);
+  color: var(--volt); font-size: 18px; box-shadow: 0 10px 30px rgba(0,0,0,.5); opacity: 0; transform: translateY(-8px); transition: opacity .5s, transform .5s; }
+.saludo-pill.on { opacity: 1; transform: none; }
+.saludo-pill[hidden] { display: none; }
+body.pagina .saludo, body.pagina .saludo-pill { top: 80px; }
+
+/* Letra y estilo de cada temporada */
+.temporada-navidad .saludo-titulo, .temporada-navidad .saludo-pill { font-family: 'Mountains of Christmas', var(--display); font-weight: 700; }
+.temporada-navidad .saludo-titulo { background: linear-gradient(180deg, #fff6d5, #f4c95d 50%, #c98b12); -webkit-background-clip: text; background-clip: text; }
+.temporada-navidad .saludo { border-color: #f4c95d; background: radial-gradient(120% 80% at 50% 0%, rgba(212,32,47,.35), transparent 70%), rgba(6,20,14,.9); }
+.temporada-halloween .saludo-titulo, .temporada-halloween .saludo-pill { font-family: 'Creepster', var(--display); letter-spacing: .04em; }
+.temporada-halloween .saludo-titulo { background: linear-gradient(180deg, #ffd27a, #ff7a00 55%, #a33b00); -webkit-background-clip: text; background-clip: text; filter: drop-shadow(0 0 14px rgba(157,77,255,.7)) drop-shadow(0 3px 0 #000); }
+.temporada-halloween .saludo { border-color: #ff7a00; background: radial-gradient(120% 80% at 50% 0%, rgba(157,77,255,.35), transparent 70%), rgba(10,7,16,.92); }
+.temporada-mujer .saludo-titulo, .temporada-madre .saludo-titulo, .temporada-san_valentin .saludo-titulo, .temporada-amistad .saludo-titulo, .temporada-octubre_rosa .saludo-titulo,
+.temporada-mujer .saludo-pill, .temporada-madre .saludo-pill, .temporada-san_valentin .saludo-pill, .temporada-amistad .saludo-pill, .temporada-octubre_rosa .saludo-pill { font-family: 'Great Vibes', cursive; font-weight: 400; }
+.temporada-mujer .saludo-titulo, .temporada-madre .saludo-titulo, .temporada-san_valentin .saludo-titulo, .temporada-amistad .saludo-titulo, .temporada-octubre_rosa .saludo-titulo { font-size: clamp(46px, 9vw, 72px); padding: 0 6px; }
+.temporada-mujer .saludo { background: radial-gradient(120% 90% at 50% 0%, rgba(192,132,252,.35), transparent 70%), rgba(22,12,26,.9); border-color: #e9c3ff; }
+.temporada-mujer .saludo-titulo { background: linear-gradient(180deg, #fff, #f5d0fe 45%, #c084fc); -webkit-background-clip: text; background-clip: text; }
+.temporada-madre .saludo { background: radial-gradient(120% 90% at 50% 0%, rgba(244,114,182,.35), transparent 70%), rgba(24,12,18,.9); border-color: #fbcfe8; }
+.temporada-madre .saludo-titulo { background: linear-gradient(180deg, #fff, #fde2e4 45%, #f472b6); -webkit-background-clip: text; background-clip: text; }
+.temporada-san_valentin .saludo, .temporada-amistad .saludo { border-color: #ffb3c7; }
+.temporada-san_valentin .saludo-titulo, .temporada-amistad .saludo-titulo { background: linear-gradient(180deg, #fff, #ffc2d1 40%, #ff3d6e); -webkit-background-clip: text; background-clip: text; }
+.temporada-octubre_rosa .saludo-titulo { background: linear-gradient(180deg, #fff, #ff9cc6 50%, #ff5fa2); -webkit-background-clip: text; background-clip: text; }
+.temporada-independencia .saludo-titulo { font-family: var(--display); background: linear-gradient(180deg, #fcd116 0 50%, #2b59c3 50% 75%, #ce1126 75%); -webkit-background-clip: text; background-clip: text; }
+.temporada-black_friday .saludo-titulo { font-family: var(--display); letter-spacing: .06em; color: #fff; background: none; -webkit-text-fill-color: #fff; text-shadow: 0 0 6px #ff2a2a, 0 0 18px #ff2a2a, 0 0 42px #ff2a2a; animation: tp-neon 3s infinite; }
+.temporada-ano_nuevo .saludo-titulo { font-family: var(--display); background: linear-gradient(180deg, #fff8e1, #f5c542 50%, #b8860b); -webkit-background-clip: text; background-clip: text; }
+.temporada-padre .saludo-titulo, .temporada-nino .saludo-titulo, .temporada-actividad .saludo-titulo { font-family: var(--display); }
+@keyframes tp-neon { 0%, 18%, 22%, 62%, 64%, 100% { opacity: 1; } 20%, 63% { opacity: .55; } }
+
+/* ---------- Capa de decoración ---------- */
+.tp-capa { position: fixed; inset: 0; z-index: 54; pointer-events: none; overflow: hidden; }
+.tp-capa > * { position: absolute; will-change: transform; }
+@keyframes tp-cae { from { transform: translate3d(0, -40px, 0); } to { transform: translate3d(var(--dx, 40px), 108vh, 0); } }
+@keyframes tp-cae-gira { from { transform: translate3d(0, -40px, 0) rotate(0) rotateY(0); } to { transform: translate3d(var(--dx, 60px), 108vh, 0) rotate(var(--rot, 540deg)) rotateY(720deg); } }
+@keyframes tp-sube { from { transform: translate3d(0, 0, 0) rotate(-8deg); opacity: 0; } 10% { opacity: var(--op, .9); } 90% { opacity: var(--op, .9); } to { transform: translate3d(var(--dx, 30px), -112vh, 0) rotate(8deg); opacity: 0; } }
+@keyframes tp-vaiven { from { margin-left: -14px; } to { margin-left: 14px; } }
+.tp-nieve { top: 0; border-radius: 50%; background: radial-gradient(circle, #fff 0 45%, rgba(255,255,255,.4) 60%, transparent 70%); animation: tp-cae linear forwards; }
+.tp-petalo { top: 0; border-radius: 0 80% 0 80%; animation: tp-cae-gira linear forwards; box-shadow: inset 0 0 4px rgba(255,255,255,.4); }
+.tp-confeti { top: 0; border-radius: 2px; animation: tp-cae-gira linear forwards; }
+.tp-estrella { top: 0; color: #ffe39a; animation: tp-cae linear forwards; text-shadow: 0 0 8px #ffd34d; }
+.tp-corazon { bottom: -40px; animation: tp-sube linear forwards; }
+.tp-corazon svg { width: 100%; height: 100%; filter: drop-shadow(0 0 6px rgba(255,80,120,.6)); }
+.tp-globo { bottom: -90px; width: 34px; height: 42px; border-radius: 50% 50% 46% 46%; animation: tp-sube linear forwards; box-shadow: inset -6px -8px 0 rgba(0,0,0,.15), inset 6px 6px 10px rgba(255,255,255,.35); }
+.tp-globo::before { content: ''; position: absolute; left: 50%; bottom: -5px; margin-left: -4px; border: 4px solid transparent; border-bottom-color: inherit; border-top: 0; }
+.tp-globo::after { content: ''; position: absolute; left: 50%; top: 100%; width: 1px; height: 46px; background: rgba(255,255,255,.55); }
+
+/* Volador que cruza la pantalla (trineo de Santa, murciélagos, cupido, corredor) */
+@keyframes tp-cruza-izq { from { transform: translateX(110vw); } to { transform: translateX(-60vw); } }
+@keyframes tp-cruza-der { from { transform: translateX(-60vw); } to { transform: translateX(110vw); } }
+@keyframes tp-flota { 0%, 100% { margin-top: 0; } 50% { margin-top: 22px; } }
+@keyframes tp-aletea { 0%, 100% { transform: scaleY(1); } 50% { transform: scaleY(.45); } }
+.tp-volador { left: 0; white-space: nowrap; animation: linear forwards; }
+.tp-volador > .vuelo { display: inline-block; animation: tp-flota 2.4s ease-in-out infinite; }
+.tp-santa .vuelo { font-size: 38px; filter: drop-shadow(0 0 10px rgba(255,220,120,.6)); }
+.tp-santa .vuelo span { display: inline-block; margin-right: -4px; }
+.tp-santa .vuelo .trineo { position: relative; margin-left: 10px; }
+.tp-santa .vuelo .trineo b { position: absolute; left: 6px; top: -18px; font-size: 30px; font-weight: 400; }
+.tp-santa .vuelo .rienda { display: inline-block; width: 26px; height: 2px; background: linear-gradient(90deg, #c98b12, #f4c95d); vertical-align: middle; margin: 0 2px; }
+.tp-chispa { color: #fff3b0; text-shadow: 0 0 8px #ffd34d; animation: tp-chispa 1.6s ease-out forwards; }
+@keyframes tp-chispa { from { opacity: 1; transform: translateY(0) scale(1); } to { opacity: 0; transform: translateY(26px) scale(.3); } }
+.tp-murcielago .vuelo span { display: inline-block; animation: tp-aletea .28s ease-in-out infinite; filter: drop-shadow(0 0 6px rgba(157,77,255,.8)); }
+
+/* Esquinas */
+.tp-esquina { bottom: 0; left: 0; }
+.tp-arbol { width: 130px; left: 10px; bottom: 0; filter: drop-shadow(0 0 18px rgba(244,201,93,.35)); }
+.tp-arbol .luz { animation: tp-titila 1.4s ease-in-out infinite; }
+.tp-arbol .estrella-arbol { animation: tp-brilla 2s ease-in-out infinite; transform-origin: 50px 12px; }
+@keyframes tp-titila { 0%, 100% { opacity: 1; } 50% { opacity: .25; } }
+@keyframes tp-brilla { 0%, 100% { transform: scale(1); filter: drop-shadow(0 0 4px #ffd34d); } 50% { transform: scale(1.15); filter: drop-shadow(0 0 12px #ffd34d); } }
+.tp-calabazas { left: 8px; bottom: 4px; font-size: 54px; line-height: 1; }
+.tp-calabazas span { display: inline-block; filter: drop-shadow(0 0 16px rgba(255,122,0,.85)); animation: tp-respira 2.6s ease-in-out infinite; }
+.tp-calabazas span:nth-child(2) { font-size: 38px; animation-delay: -1.2s; }
+@keyframes tp-respira { 0%, 100% { filter: drop-shadow(0 0 10px rgba(255,122,0,.6)); } 50% { filter: drop-shadow(0 0 24px rgba(255,150,0,1)); } }
+.tp-telarana { top: 62px; right: 0; width: 150px; opacity: .55; }
+.tp-arana { top: 62px; width: 2px; background: linear-gradient(rgba(255,255,255,.55), rgba(255,255,255,.25)); animation: tp-baja 7s ease-in-out infinite; }
+.tp-arana span { position: absolute; left: -13px; bottom: -22px; font-size: 26px; }
+@keyframes tp-baja { 0%, 100% { height: 40px; } 50% { height: 190px; } }
+.tp-niebla { left: -10%; right: -10%; bottom: -30px; height: 160px; background: radial-gradient(ellipse at 30% 100%, rgba(200,190,230,.18), transparent 60%), radial-gradient(ellipse at 75% 100%, rgba(200,190,230,.14), transparent 55%); filter: blur(10px); animation: tp-niebla 14s ease-in-out infinite alternate; }
+@keyframes tp-niebla { to { transform: translateX(6%); } }
+.tp-flores { left: 0; bottom: 0; width: 170px; }
+.tp-flores .flor { transform-box: fill-box; transform-origin: center; animation: tp-mece 4s ease-in-out infinite alternate; }
+@keyframes tp-mece { from { transform: rotate(-6deg); } to { transform: rotate(6deg); } }
+.tp-ramo { left: 10px; bottom: 6px; font-size: 64px; filter: drop-shadow(0 0 16px rgba(244,114,182,.6)); animation: tp-mece 4s ease-in-out infinite alternate; }
+.tp-lazo { left: 14px; bottom: 10px; width: 70px; filter: drop-shadow(0 0 14px rgba(255,95,162,.7)); }
+.tp-corazon-fijo { left: 16px; bottom: 14px; width: 60px; animation: tp-late 1.2s ease-in-out infinite; }
+@keyframes tp-late { 0%, 100% { transform: scale(1); } 15% { transform: scale(1.18); } 30% { transform: scale(1); } 45% { transform: scale(1.12); } }
+
+/* Guirnaldas bajo el menú */
+.tp-guirnalda { top: 62px; left: 0; right: 0; height: 30px; }
+.tp-guirnalda svg { width: 100%; height: 100%; }
+.tp-guirnalda .foco { animation: tp-titila 1.2s ease-in-out infinite; }
+.tp-etiqueta { top: 62px; transform-origin: 50% 0; animation: tp-columpio 3s ease-in-out infinite alternate; }
+.tp-etiqueta::before { content: ''; position: absolute; left: 50%; top: 0; width: 1px; height: 26px; background: rgba(255,255,255,.6); }
+.tp-etiqueta span { display: block; margin-top: 26px; padding: 6px 12px 6px 18px; background: #ff2a2a; color: #fff; font-family: var(--display); font-size: 18px; clip-path: polygon(14px 0, 100% 0, 100% 100%, 14px 100%, 0 50%); box-shadow: 0 6px 18px rgba(255,42,42,.5); }
+@keyframes tp-columpio { from { transform: rotate(-7deg); } to { transform: rotate(7deg); } }
+.tp-fuegos { inset: 0; width: 100%; height: 100%; }
+
+/* Que el carrito no quede debajo de la decoración de la esquina */
+body.tp-con-esquina .carrito-boton { left: 150px; }
+
+@media (max-width: 700px) {
+  .saludo { top: 74px; padding: 24px 18px 16px; }
+  .saludo-texto { font-size: 14px; }
+  .saludo-pill { top: 72px; font-size: 15px; padding: 6px 12px; }
+  .tp-arbol { width: 62px; left: 2px; opacity: .9; }
+  .tp-flores { opacity: .9; } .tp-calabazas, .tp-ramo, .tp-lazo, .tp-corazon-fijo { transform: scale(.8); transform-origin: left bottom; }
+  .tp-calabazas { font-size: 38px; }
+  .tp-calabazas span:nth-child(2) { font-size: 28px; }
+  .tp-telarana { width: 96px; }
+  .tp-flores { width: 110px; }
+  .tp-ramo { font-size: 44px; }
+  .tp-santa .vuelo { font-size: 28px; }
+  .tp-santa .vuelo .trineo b { font-size: 22px; top: -13px; }
+  body.tp-con-esquina .carrito-boton { left: 96px; }
+}
+@media (prefers-reduced-motion: reduce) { .tp-capa .tp-nieve, .tp-capa .tp-petalo, .tp-capa .tp-confeti, .tp-capa .tp-corazon, .tp-capa .tp-globo, .tp-capa .tp-volador, .tp-capa .tp-estrella { display: none; } }
